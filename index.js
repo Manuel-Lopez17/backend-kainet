@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { v4 as uuidv4 } from 'uuid';
+import 'dotenv/config';
 
 const app = express();
 
@@ -12,9 +13,8 @@ app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const supabaseUrl = 'https://fmmpkexoukmjktqrgdrk.supabase.co';
-// const supabaseKey = process.env.SUPABASE_KEY;
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtbXBrZXhvdWttamt0cXJnZHJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYyMDg0NTYsImV4cCI6MjAzMTc4NDQ1Nn0.iTaRMzW7IQtl01HgYnM54MMKCJ7eW1PUadGCoi0lw1s';
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
