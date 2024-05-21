@@ -24,7 +24,7 @@ const port = process.env.PORT || 3000;
 const obtenerPosicionesPaginadas = async (page, perPage) => {
     const { data, error, count } = await supabase
         .from('Posicion')
-        .select('fechaEntregaInicio, moneda, precio, Producto(usoFrecuente,nombre),Empresa(razonSocial)', { count: 'exact' })
+        .select('id,fechaEntregaInicio, moneda, precio, Producto(usoFrecuente,nombre),Empresa(razonSocial)', { count: 'exact' })
         .order('usoFrecuente', { ascending: false, foreignTable: 'Producto' })
         .range((page - 1) * perPage, page * perPage - 1);
 
