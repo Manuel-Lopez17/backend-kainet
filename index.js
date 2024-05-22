@@ -21,24 +21,54 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 const port = process.env.PORT || 3000;
 
 
-const obtenerPosicionesPaginadas = async (page, perPage) => {
-    const { data, error, count } = await supabase
-        .from('Posicion')
-        .select('id,fechaEntregaInicio, moneda, precio, Producto(usoFrecuente,nombre),Empresa(razonSocial)', { count: 'exact' })
-        .order('usoFrecuente', { ascending: false, foreignTable: 'Producto' })
-        .range((page - 1) * perPage, page * perPage - 1);
+// NON-class method
+// Prefiero este enfoque pero la consigna decia que tiene que ser una clase
+// const obtenerPosicionesPaginadas = async (page, perPage) => {
+//     const { data, error, count } = await supabase
+//         .from('Posicion')
+//         .select('id,fechaEntregaInicio, moneda, precio, Producto(usoFrecuente,nombre),Empresa(razonSocial)', { count: 'exact' })
+//         .order('usoFrecuente', { ascending: false, foreignTable: 'Producto' })
+//         .range((page - 1) * perPage, page * perPage - 1);
 
-    if (error) {
-        throw error;
+//     if (error) {
+//         throw error;
+//     }
+
+//     return {
+//         total: count,
+//         page,
+//         perPage,
+//         posiciones: data,
+//     };
+// };
+
+class PosicionesPaginadas {
+    constructor(supabase) {
+        this.supabase = supabase;
     }
 
-    return {
-        total: count,
-        page,
-        perPage,
-        posiciones: data,
-    };
-};
+    async obtenerPosicionesPaginadas(page, perPage) {
+        const { data, error, count } = await this.supabase
+            .from('Posicion')
+            .select('id,fechaEntregaInicio, moneda, precio, Producto(usoFrecuente,nombre),Empresa(razonSocial)', { count: 'exact' })
+            .order('usoFrecuente', { ascending: false, foreignTable: 'Producto' })
+            .range((page - 1) * perPage, page * perPage - 1);
+
+        if (error) {
+            throw error;
+        }
+
+        return {
+            total: count,
+            page,
+            perPage,
+            posiciones: data,
+        };
+    }
+}
+
+const posicionesPaginadas = new PosicionesPaginadas(supabase);
+
 
 app.get('/posiciones', async (req, res) => {
     const page = parseInt(req.query.page) || 1;
@@ -47,7 +77,11 @@ app.get('/posiciones', async (req, res) => {
 
 
     try {
-        const result = await obtenerPosicionesPaginadas(page, perPage);
+        // NON-class method
+        // const result = await obtenerPosicionesPaginadas(page, perPage);
+        //
+        const result = await posicionesPaginadas.obtenerPosicionesPaginadas(page, perPage);
+
         if (order === "asc") {
             result.posiciones = result.posiciones.sort((a, b) => a.Producto.usoFrecuente - b.Producto.usoFrecuente);
         } else {
