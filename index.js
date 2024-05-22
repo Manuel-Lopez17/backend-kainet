@@ -20,6 +20,25 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 const port = process.env.PORT || 3000;
 
+app.get('/', (req, res) => {
+    const html = `
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Página de inicio</title>
+    </head>
+    <body>
+      <h1>Bienvenido a al backend del test de kainet</h1>
+      <p>Esta es una página servida que esta de placeholder</p>
+    </body>
+    </html>
+  `;
+
+    res.send(html);
+});
+
 
 // NON-class method
 // Prefiero este enfoque pero la consigna decia que tiene que ser una clase
