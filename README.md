@@ -28,9 +28,7 @@ Este es el backend para la aplicación Kainet.
    npm install
    ```
 
-4. Antes de ejecutar el servidor, asegúrate de que el archivo `.env` (será proporcionado por correo electrónico) se encuentre en la carpeta `/backend-kainet`.
-
-5. Ejecuta en local:
+4. Ejecuta en local:
 
    ```bash
    npm start
