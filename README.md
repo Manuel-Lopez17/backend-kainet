@@ -46,9 +46,9 @@ Aquí tienes las URLs para probar el servicio en tu navegador:
   - El parámetro `order` puede ser "asc" o "desc"
 - [http://localhost:3000/usuarios](http://localhost:3000/usuarios): Request de usuarios
 
-Para agregar un suario desde la consola se puede usar el comando 
+Para agregar un usuario desde la consola se puede usar el comando 
 
 ```
-node addUser.js "Nombre del Usuario" "email@dominio.com" true
+node addUser.js "Nombre del Usuario" "email@dominio.com"
 
 ```
