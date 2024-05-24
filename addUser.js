@@ -20,7 +20,7 @@ const usuarioExiste = async (mail) => {
     return data.length > 0;
 };
 
-const crearUsuario = async (nombre, email, habilitado) => {
+const crearUsuario = async (nombre, email, habilitado = true) => {
     const usuarioYaExiste = await usuarioExiste(email);
 
     if (usuarioYaExiste) {
@@ -43,17 +43,16 @@ const crearUsuario = async (nombre, email, habilitado) => {
 
 // Obtener los argumentos de la línea de comandos
 const args = process.argv.slice(2);
-const [nombre, email, habilitado] = args;
+const [nombre, email] = args;
 
-if (!nombre || !email || typeof habilitado === 'undefined') {
-    console.error('Faltan datos o son incorrectos. Uso: node addUser.js <nombre> <email> <habilitado>');
+if (!nombre || !email) {
+    console.error('Faltan datos o son incorrectos. Uso: node addUser.js <nombre> <email>');
     process.exit(1);
 }
 
 (async () => {
     try {
-        const habilitadoBool = habilitado.toLowerCase() === 'true';
-        const newUser = await crearUsuario(nombre, email, habilitadoBool);
+        const newUser = await crearUsuario(nombre, email);
         console.log('Usuario creado:', newUser);
     } catch (error) {
         console.error('Error al crear el usuario:', error.message);
